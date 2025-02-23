@@ -53,7 +53,7 @@ class _VibrationScreenState extends State<VibrationScreen> {
           child: Text(
             'Vibration App',
             style: GoogleFonts.manrope(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -66,41 +66,28 @@ class _VibrationScreenState extends State<VibrationScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "Vibration Interval (minutes)",
-                style: GoogleFonts.manrope(fontSize: 12),
-              ),
-              Slider(
+              // Text(
+              //   "Vibration Interval (minutes)",
+              //   style: GoogleFonts.manrope(fontSize: 12),
+              // ),
+              _buildSlider(
+                title: 'Vibration Interval (minutes)',
                 value: interval.toDouble(),
                 min: 1,
                 max: 10,
                 divisions: 9,
-                label: "$interval min",
                 onChanged: _onIntervalChanged,
-                activeColor: Colors.blue,
+                label: '$interval min',
               ),
-              // Slider(value: interval.toDouble(), onChanged: onChanged)
-              Text(
-                "Vibration Interval (minutes)",
-                style: GoogleFonts.manrope(fontSize: 12),
+              _buildSlider(
+                title: 'Vibration Intensity',
+                value: intensity.toDouble(),
+                min: 0,
+                max: 255,
+                divisions: 10,
+                onChanged: _onIntensityChanged,
+                label: '$intensity',
               ),
-              GestureDetector(
-                onVerticalDragUpdate: (_) {},
-                child: Slider(
-                  value: intensity.toDouble(),
-                  min: 0,
-                  max: 255,
-                  divisions: 10,
-                  label: "$intensity",
-                  onChanged: _onIntensityChanged,
-                  activeColor: Colors.blue,
-                ),
-              ),
-
-              // SizedBox(
-              //   height: 7,
-              // ),
-
               WatchButton(
                 text: isVibrating ? "Stop Vibrating" : "Start Vibrating",
                 onTap: _toggleVibration,
@@ -112,6 +99,47 @@ class _VibrationScreenState extends State<VibrationScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSlider({
+    required String title,
+    required double value,
+    required double min,
+    required double max,
+    required int divisions,
+    required void Function(double) onChanged,
+    required String label,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.manrope(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10.0),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
+            activeTrackColor: Colors.blueAccent,
+            inactiveTrackColor: Colors.blueAccent.withOpacity(0.3),
+            thumbColor: Colors.blueAccent,
+            valueIndicatorColor: Colors.blueAccent,
+          ),
+          child: Slider(
+            value: value,
+            min: min,
+            max: max,
+            divisions: divisions,
+            label: label,
+            onChanged: onChanged,
+          ),
+        ),
+      ],
     );
   }
 }

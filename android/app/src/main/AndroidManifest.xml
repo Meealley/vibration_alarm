@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- Add vibration permission here -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+
     <application
         android:label="watch_app"
         android:name="${applicationName}"
